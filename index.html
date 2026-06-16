@@ -444,7 +444,6 @@
             </div>
         </header>
 
-        <!-- PORTAL SECTION: NAVIGATION HUB -->
         <section id="hub-directory" class="section-container active">
             <div class="hero">
                 <span class="track-pill">Core Hub Vault</span>
@@ -469,6 +468,14 @@
                         <p class="hub-card-desc">Train your spoken calculations, mental breakeven logic, OEE yield calibrations, and business judgment metrics.</p>
                     </div>
                     <a href="./playbook_math.html" class="btn-link">Open Math Drills Engine →</a>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <h3 class="hub-card-title">MBB Battlecard & Red Flags Vault</h3>
+                        <p class="hub-card-desc">Your ultimate quick-reference cheat sheet. Packed with opening checklists, timing shortcuts, power phrases, and 20 fatal red flags to avoid.</p>
+                    </div>
+                    <a href="./playbook_battlecard.html" class="btn-link">Open Battlecard Vault →</a>
                 </div>
 
                 <div class="hub-card">
@@ -521,7 +528,6 @@
             </div>
         </section>
 
-        <!-- PORTAL SECTION: READINESS DASHBOARD -->
         <section id="readiness-dashboard" class="section-container">
             <div class="hero">
                 <span class="track-pill">Competency Metrics Engine</span>
@@ -541,12 +547,9 @@
                 </ul>
             </div>
 
-            <div class="dashboard-grid" id="readiness-anchor-grid">
-                <!-- JavaScript builds the metrics elements dynamically -->
-            </div>
+            <div class="dashboard-grid" id="readiness-anchor-grid"></div>
         </section>
 
-        <!-- PORTAL SECTION: HOW TO USE -->
         <section id="how-to-use" class="section-container">
             <div class="hero">
                 <span class="track-pill">Execution Blueprint</span>
@@ -630,7 +633,6 @@
             </div>
         </section>
 
-        <!-- PORTAL SECTION: PREP PLAN -->
         <section id="prep-plan" class="section-container">
             <div class="hero">
                 <span class="track-pill">Syllabus Matrix</span>
@@ -715,7 +717,6 @@
             </div>
         </section>
 
-        <!-- PORTAL SECTION: PARTNER ROUND -->
         <section id="partner-round" class="section-container">
             <div class="hero">
                 <span class="track-pill">Executive Level Deep-Dive</span>
@@ -744,13 +745,11 @@
     </main>
 
     <script>
-        // Competency List
         const PORTAL_METRICS = [
             "Case Structuring", "Business Judgment", "Math Accuracy", "Synthesis", 
             "Fit / PEI Storytelling", "Executive Presence", "Communication Clarity", "Recommendation Strength"
         ];
 
-        // 10 Mandatory Partner Round Questions
         const PARTNER_QUESTIONS = [
             "Why consulting now, and why our specific firm practice footprint over industry corporate tracks?",
             "Why do you want to join our firm specifically, and how do you map your long-term career goals?",
@@ -764,7 +763,6 @@
             "What would you do if our client team fundamentally disagreed with our final synergy modeling projections?"
         ];
 
-        // Navigation Management Engine
         function showPortalSection(sectionId) {
             document.querySelectorAll('.section-container').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('#portal-nav button').forEach(btn => btn.classList.remove('active'));
@@ -782,7 +780,6 @@
             document.getElementById('header-view-title').innerText = titleMap[sectionId];
         }
 
-        // Dashboard LocalStorage Sync Engine
         function buildDashboardEngine() {
             const grid = document.getElementById('readiness-anchor-grid');
             grid.innerHTML = '';
@@ -808,7 +805,6 @@
         function updatePortalMetric(metric, value) {
             localStorage.setItem(`portal_score_${metric}`, value);
             
-            // Recalculate component card visual boundaries
             const cardBox = document.getElementById(`box_${metric.replace(/\s+/g, '')}`);
             if (value.includes('4')) {
                 cardBox.classList.add('mbb-caliber');
@@ -829,7 +825,6 @@
             });
         }
 
-        // Bootstrap portal operations
         window.onload = () => {
             buildDashboardEngine();
             renderPartnerRoundQuestions();
