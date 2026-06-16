@@ -845,14 +845,47 @@
             document.getElementById('filler-words').innerText = `Filler Words: ${score}`;
         }
 
-        function triggerAIFeedbackPayload() {
-            let item = activeItemType === 'case' ? SPRINT_CASES.find(c => c.id === activeItemId) : SPRINT_QUESTIONS.find(q => q.id === activeItemId);
-            const userSpeech = document.getElementById('transcription-box').value;
-            if (!item) return;
-            let payload = `[CONSULTING / MBB INTERVIEW COACHING — ECCLES MBA MODULE]\n${activeItemType === 'case' ? `CASE: ${item.title}\nPROMPT: "${item.interviewerPrompt}"` : `PROMPT: "${item.question}"`}\nCANDIDATE RESPONSE:\n"${userSpeech || "[No transcript]"}"\nProvide feedback using parameters: What Worked, Top 2 Areas, Advanced Consulting Move, and MBB Readiness rating.`;
-            document.getElementById('ai-copy-text').innerText = payload.trim();
-            document.getElementById('ai-prompt-output').style.display = 'block';
-        }
+       function triggerAIFeedbackPayload() {
+    let item = activeItemType === 'case' ? SPRINT_CASES.find(c => c.id === activeItemId) : SPRINT_QUESTIONS.find(q => q.id === activeItemId);
+    const userSpeech = document.getElementById('transcription-box').value;
+    if (!item) return;
+
+    let payload = `
+[CONSULTING / MBB INTERVIEW COACHING — ECCLES MBA MODULE]
+Evaluate the candidate response to the following consulting tracking prompt using partner-level standards:
+
+${activeItemType === 'case' ? `CASE SCENARIO: ${item.title}\nPROMPT EXPECTATION: "${item.interviewerPrompt}"\nIDEAL FRAMEWORK PATH: "${item.suggestedStructure}"` : `INTERVIEW PROMPT: "${item.question}"\nEXPECTED MODEL DELIVERY: "${item.conversational}"`}
+
+CANDIDATE AUDIO TRANSCRIPT INPUT:
+"${userSpeech || "[No transcript provided. Evaluate parameters and provide an elite baseline model response.]"}"
+
+Provide deep structured metrics using exactly this markdown output schema:
+
+**What Worked**
+[Detail 1-2 key operational strengths from what the candidate said.]
+
+**Top 2 Areas for Improvement**
+1. [Identify the primary gap versus an elite MBB delivery and give specific replacement phrasing.]
+2. [Identify any logical gaps, calculation slips, or structural blind spots.]
+
+**Advanced Consulting Power Move**
+[Provide one custom partner-level business insight or analytical variable tailored to this specific scenario context.]
+
+**Dashboard Scorecard Matrix**
+Assign exactly one rubric score (1. Emerging | 2. Developing | 3. Interview-Ready | 4. MBB-Caliber) for each applicable competency based on this specific performance:
+* Case Structuring: [Score]
+* Business Judgment: [Score]
+* Math Accuracy: [Score]
+* Synthesis: [Score]
+* Fit / PEI Storytelling: [Score]
+* Executive Presence: [Score]
+* Communication Clarity: [Score]
+* Recommendation Strength: [Score]
+    `;
+
+    document.getElementById('ai-copy-text').innerText = payload.trim();
+    document.getElementById('ai-prompt-output').style.display = 'block';
+}
 
         function copyPayloadToClipboard() { navigator.clipboard.writeText(document.getElementById('ai-copy-text').innerText); alert("Payload packed to clipboard!"); }
         window.onload = () => { populateSprintArchitecture(); };
