@@ -386,13 +386,52 @@
             document.getElementById('filler-words').innerText = `Filler Words Detected: ${count}`;
         }
 
-        function generateMathCoachingPrompt() {
-            const drill = CONSULTING_DRILLS.find(d => d.id === activeDrillId), userSpeech = document.getElementById('transcription-box').value;
-            if (!drill) return;
-            const structuredPayload = `[CONSULTING / MBB INTERVIEW COACHING — ECCLES MBA MODULE]\nDRILL TYPE: ${drill.drillType}\nSCENARIO: "${drill.consultingExample}"\nMODEL ANSWER: "${drill.sampleCalculation}"\nEXPECTED VERBALIZATION: "${drill.verbalizationScript}"\nCANDIDATE TRANSCRIPT:\n"${userSpeech || "[Evaluate formulas]"}"\nProvide partner scores:\n\n**What Worked**\n[1-2 strengths]\n\n**Top 2 Areas for Improvement**\n1. [Pacing gap]\n2. [Logical slip]\n\n**Advanced Consulting Power Move**\n[Insight step]\n\n**MBB Readiness Evaluation**\n[Emerging | Developing | Interview-Ready | MBB-Caliber]`;
-            document.getElementById('ai-copy-text').innerText = structuredPayload.trim();
-            document.getElementById('ai-prompt-output').style.display = 'block';
-        }
+   function generateMathCoachingPrompt() {
+    const drill = CONSULTING_DRILLS.find(d => d.id === activeDrillId);
+    const userSpeech = document.getElementById('transcription-box').value;
+    
+    if (!drill) return;
+
+    const structuredPayload = `
+[CONSULTING / MBB INTERVIEW COACHING — ECCLES MBA MODULE]
+Evaluate the candidate's spoken math explanation against the provided business context using partner-level standards.
+
+DRILL TYPE APPLIED: ${drill.drillType}
+CONSULTING STYLE SCENARIO: "${drill.consultingExample}"
+FORMULA ENGINE: "${drill.formula}"
+MODEL ANSWER STRUCTURE: "${drill.sampleCalculation}"
+MODEL VERBALIZATION EXPECTATION: "${drill.verbalizationScript}"
+
+CANDIDATE TRANSCRIBED RESPONSE STATEMENT:
+"${userSpeech || "[Candidate provided no spoken transcript. Evaluate parameters and provide a model answer layout.]"}"
+
+Provide deep, objective metrics utilizing exactly this markdown output schema:
+
+**What Worked**
+[Detail 1-2 quantitative strengths.]
+
+**Top 2 Areas for Improvement**
+1. [Critique execution pacing or mental rounding metrics]
+2. [Identify any logical or structural slips]
+
+**Advanced Consulting Power Move**
+[Provide one advanced corporate finance variable or optimization metric move]
+
+**Dashboard Scorecard Matrix**
+Assign exactly one rubric score (1. Emerging | 2. Developing | 3. Interview-Ready | 4. MBB-Caliber) for each applicable competency based on this specific performance:
+* Case Structuring: [Score (N/A if not tested)]
+* Business Judgment: [Score]
+* Math Accuracy: [Score]
+* Synthesis: [Score]
+* Fit / PEI Storytelling: [Score (N/A if not tested)]
+* Executive Presence: [Score]
+* Communication Clarity: [Score]
+* Recommendation Strength: [Score]
+    `;
+
+    document.getElementById('ai-copy-text').innerText = structuredPayload.trim();
+    document.getElementById('ai-prompt-output').style.display = 'block';
+}
 
         function copyToClipboard() { navigator.clipboard.writeText(document.getElementById('ai-copy-text').innerText); alert("Payload copied!"); }
         window.onload = () => { calculateNavigationBadges(); renderDrills(CONSULTING_DRILLS); };
