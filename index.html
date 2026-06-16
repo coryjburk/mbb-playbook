@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eccles MBA — Consulting Hub Landing Portal</title>
+    <style>
+        :root {
+            --primary-red: #CC0000;
+            --accent-gold: #c9a84c;
+            --bg-dark: #121212;
+            --bg-card: #1e1e1e;
+            --bg-sidebar: #0a0a0a;
+            --text-main: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --border-color: #333333;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 320px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            padding: 0 24px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .brand h2 {
+            color: var(--primary-red);
+            margin: 0 0 5px 0;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .brand p {
+            color: var(--accent-gold);
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-label {
+            padding: 10px 24px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            width: 100%;
+            text-align: left;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        nav button:hover, nav button.active {
+            background-color: rgba(204, 0, 0, 0.1);
+            color: var(--primary-red);
+            border-left: 4px solid var(--primary-red);
+            padding-left: 20px;
+        }
+
+        /* Main Content Container */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Sticky Header */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title-area h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        .header-subtitle {
+            margin: 2px 0 0 0;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Display Sections */
+        .section-container {
+            padding: 40px;
+            max-width: 1300px;
+            width: calc(100% - 80px);
+            margin: 0 auto;
+            display: none;
+        }
+
+        .section-container.active {
+            display: block;
+        }
+
+        .hero {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 30px;
+        }
+
+        .track-pill {
+            display: inline-block;
+            background-color: rgba(201, 168, 76, 0.1);
+            color: var(--accent-gold);
+            padding: 5px 14px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin: 0 0 15px 0;
+            font-weight: 800;
+        }
+
+        .description {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 1.1rem;
+            max-width: 900px;
+            margin: 0;
+        }
+
+        /* Ecosystem Grid Dashboard */
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 10px;
+        }
+
+        .hub-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hub-card:hover {
+            border-color: var(--primary-red);
+            transform: translateY(-2px);
+        }
+
+        .hub-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: white;
+        }
+
+        .hub-card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0 0 20px 0;
+            flex-grow: 1;
+        }
+
+        .btn-link {
+            background-color: var(--primary-red);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: background-color 0.2s;
+            display: block;
+        }
+
+        .btn-link:hover {
+            background-color: #a00000;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: all 0.2s;
+            display: block;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(201, 168, 76, 0.1);
+        }
+
+        /* Competency Readiness Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .metric-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-gold);
+            transition: border-left-color 0.2s;
+        }
+
+        .metric-card.mbb-caliber {
+            border-left-color: var(--primary-red);
+        }
+
+        .metric-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            color: var(--text-main);
+        }
+
+        select {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #121212;
+            color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+
+        /* Sequential Instruction Lists */
+        .instruction-block {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-bottom: 20px;
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .step-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            background-color: rgba(204, 0, 0, 0.1);
+            color: var(--primary-red);
+            font-weight: 800;
+            font-size: 1.1rem;
+            min-width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(204, 0, 0, 0.3);
+        }
+
+        .step-content h4 {
+            margin: 0 0 6px 0;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .step-content p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* 4-Week Prep Plan Timeline Cards */
+        .week-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .week-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            margin: 0;
+        }
+
+        .week-milestone {
+            font-size: 0.8rem;
+            background-color: rgba(204, 0, 0, 0.1);
+            color: var(--primary-red);
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(204, 0, 0, 0.2);
+        }
+
+        .plan-subsection {
+            margin-bottom: 15px;
+        }
+
+        .plan-subsection-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-subsection-content {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Partner Round Card lists */
+        .partner-question-card {
+            background-color: #161616;
+            border-left: 3px solid var(--primary-red);
+            padding: 15px 20px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 15px;
+        }
+
+        .partner-question-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="brand">
+            <h2>Eccles MBA</h2>
+            <p>Consulting Landing Portal</p>
+        </div>
+        <div class="nav-label">Core Directory</div>
+        <nav id="portal-nav">
+            <button class="active" onclick="showPortalSection('hub-directory')">Ecosystem Navigation Hub</button>
+            <button onclick="showPortalSection('readiness-dashboard')">MBB Readiness Dashboard</button>
+            <button onclick="showPortalSection('how-to-use')">How to Use This Playbook</button>
+            <button onclick="showPortalSection('prep-plan')">4-Week Preparation Plan</button>
+            <button onclick="showPortalSection('partner-round')">Partner Round Preparation</button>
+        </nav>
+    </aside>
+
+    <main>
+        <header>
+            <div class="header-title-area">
+                <h1 id="header-view-title">Ecosystem Navigation Hub</h1>
+                <div class="header-subtitle">David Eccles School of Business · Consulting Track</div>
+            </div>
+        </header>
+
+        <!-- PORTAL SECTION: NAVIGATION HUB -->
+        <section id="hub-directory" class="section-container active">
+            <div class="hero">
+                <span class="track-pill">Core Hub Vault</span>
+                <h2>Eccles MBA — Consulting Interview Playbook</h2>
+                <p class="description">
+                    Welcome to the central command node of your consulting interview training suite. From this landing dashboard, you can traverse your static repository modules to train on customized frameworks, analytical drills, and highly contextual case sprints.
+                </p>
+            </div>
+
+            <div class="hub-grid">
+                <div class="hub-card">
+                    <div>
+                        <h3 class="hub-card-title">20 Case Frameworks Module</h3>
+                        <p class="hub-card-desc">Master structured scaffolding, diagnostic issue trees, and elite personalization frameworks without sounding robotic.</p>
+                    </div>
+                    <a href="./playbook_frameworks.html" class="btn-link">Open Frameworks Vault →</a>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <h3 class="hub-card-title">15 Analytics Math Drills</h3>
+                        <p class="hub-card-desc">Train your spoken calculations, mental breakeven logic, OEE yield calibrations, and business judgment metrics.</p>
+                    </div>
+                    <a href="./playbook_math.html" class="btn-link">Open Math Drills Engine →</a>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <h3 class="hub-card-title">Practice Sprint 1</h3>
+                        <p class="hub-card-desc"><strong>Theme:</strong> Profitability Decline & Market Entry Essentials.<br>Includes 5 target cases and 20 paired questions.</p>
+                    </div>
+                    <a href="./playbook_sprint_01.html" class="btn-secondary">Launch Sprint 1 →</a>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <h3 class="hub-card-title">Practice Sprint 2</h3>
+                        <p class="hub-card-desc"><strong>Theme:</strong> M&A, Corporate Valuation, and Strategic Investments.<br>Includes 5 target cases and 20 paired questions.</p>
+                    </div>
+                    <a href="./playbook_sprint_02.html" class="btn-secondary">Launch Sprint 2 →</a>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <h3 class="hub-card-title">Practice Sprint 3</h3>
+                        <p class="hub-card-desc"><strong>Theme:</strong> Supply Chain, Operations, and Cost Restructuring.<br>Includes 5 target cases and 20 paired questions.</p>
+                    </div>
+                    <a href="./playbook_sprint_03.html" class="btn-secondary">Launch Sprint 3 →</a>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <h3 class="hub-card-title">Practice Sprint 4</h3>
+                        <p class="hub-card-desc"><strong>Theme:</strong> Digital Transformation, Tech/SaaS, and AI Strategy.<br>Includes 5 target cases and 20 paired questions.</p>
+                    </div>
+                    <a href="./playbook_sprint_04.html" class="btn-secondary">Launch Sprint 4 →</a>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <h3 class="hub-card-title">Practice Sprint 5</h3>
+                        <p class="hub-card-desc"><strong>Theme:</strong> International Expansion, Go-To-Market, and Commercial Pricing.<br>Includes 5 target cases and 20 paired questions.</p>
+                    </div>
+                    <a href="./playbook_sprint_05.html" class="btn-secondary">Launch Sprint 5 →</a>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <h3 class="hub-card-title">Practice Sprint 6</h3>
+                        <p class="hub-card-desc"><strong>Theme:</strong> Advanced Estimation, Market Sizing, and Partner Edge Cases.<br>Includes 5 target cases and 20 paired questions.</p>
+                    </div>
+                    <a href="./playbook_sprint_06.html" class="btn-secondary">Launch Sprint 6 →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTAL SECTION: READINESS DASHBOARD -->
+        <section id="readiness-dashboard" class="section-container">
+            <div class="hero">
+                <span class="track-pill">Competency Metrics Engine</span>
+                <h2>MBB Interview Readiness Dashboard</h2>
+                <p class="description">
+                    Track your professional strategy capabilities across 8 core metrics. Paste your custom scores from your AI evaluation outputs to store your real-time preparation metrics locally.
+                </p>
+            </div>
+
+            <div style="background-color: var(--bg-card); padding: 18px 25px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.95rem; line-height: 1.5;">
+                <strong>Evaluation Matrix Rubric Guidelines:</strong>
+                <ul style="margin: 8px 0 0 0; padding-left: 20px; color: var(--text-muted);">
+                    <li><strong style="color: white;">1. Emerging:</strong> Candidate understands basic metrics but lacks structured issue-tree framing consistency.</li>
+                    <li><strong style="color: white;">2. Developing:</strong> Displays baseline promise but struggles with advanced synthesis or business judgment linkages.</li>
+                    <li><strong style="color: white;">3. Interview-Ready:</strong> Handles tough case prompts and behavioral layers smoothly with clear, credible structures.</li>
+                    <li><strong style="color: white;">4. MBB-Caliber:</strong> Demonstrates customized MECE logic, flawless vocal calculations, and senior partner presence.</li>
+                </ul>
+            </div>
+
+            <div class="dashboard-grid" id="readiness-anchor-grid">
+                <!-- JavaScript builds the metrics elements dynamically -->
+            </div>
+        </section>
+
+        <!-- PORTAL SECTION: HOW TO USE -->
+        <section id="how-to-use" class="section-container">
+            <div class="hero">
+                <span class="track-pill">Execution Blueprint</span>
+                <h2>How to Use This Playbook Ecosystem</h2>
+                <p class="description">Follow this systematic, 10-step training matrix to maximize the quantitative and operational logic engines built across your platform files.</p>
+            </div>
+
+            <div class="instruction-block">
+                <ol class="step-list">
+                    <li class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Start with Fit and Motivation</h4>
+                            <p>Open the paired question modules in Sprint 1 and 2 to lock down your baseline 'Why Consulting' and 'Why our firm' positioning pitches.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Build a Consulting Story Bank</h4>
+                            <p>Utilize the behavior prompts in the sprints to configure your professional historical database using clear, structured, action-oriented tracks.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Learn Core Frameworks, but Customize Them</h4>
+                            <p>Review the 20 standalone master frameworks. Practice rewriting the variables around industry terminology to never sound like a textbook checklist.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Practice Market Sizing and Math Daily</h4>
+                            <p>Run at least two quantitative drill scripts from your Math engine out loud each day to perfect your vocal calculation metrics and rounding speeds.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Complete Case Prompts by Category</h4>
+                            <p>Progress systematically through the practice sprints—advancing intentionally from basic profitability cases to complex tech cloud expansions.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h4>Practice Out Loud Using the Voice Input Tool</h4>
+                            <p>Never read solutions silently. Activate the audio transcription engine in your sprint pages and speak your full openings and recommendations live.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <h4>Generate AI Coaching Prompts After Each Response</h4>
+                            <p>Pack your generated speech transcripts into the custom prompt payloads, copy to your clipboard, and drop into your AI model for grading.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">8</div>
+                        <div class="step-content">
+                            <h4>Track Readiness by Competency</h4>
+                            <p>Return to this landing portal dashboard after case runs and update your local competency tiers based on your partner-level evaluation reports.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">9</div>
+                        <div class="step-content">
+                            <h4>Repeat Weak Categories</h4>
+                            <p>If your AI data reports highlight 'Math Accuracy' or 'Synthesis' drops, return to those targeted modules to run repeat iterations.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">10</div>
+                        <div class="step-content">
+                            <h4>Prepare Final-Round Partner-Level Answers</h4>
+                            <p>Review the partnerDeep-dive parameters to prepare your delivery formatting for high-ambiguity cases and senior partner pushback loops.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- PORTAL SECTION: PREP PLAN -->
+        <section id="prep-plan" class="section-container">
+            <div class="hero">
+                <span class="track-pill">Syllabus Matrix</span>
+                <h2>MBB 4-Week Preparation Roadmap</h2>
+                <p class="description">A rigorous, daily operational curriculum designed to transition Eccles MBA candidates into interview-ready consulting professionals over a 4-week calendar horizon.</p>
+            </div>
+
+            <div class="week-card">
+                <div class="week-header">
+                    <h3 class="week-title">Week 1: Foundations, Structures, and Core Profitability</h3>
+                    <span class="week-milestone">Milestone: Baseline Validation</span>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Focus Target Areas</div>
+                    <div class="plan-subsection-content">Mastering core profit trees, establishing behavior metrics anchors, and structuring basic market sizing estimations.</div>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Daily Practice Activities</div>
+                    <div class="plan-subsection-content">Run 3 standalone frameworks per day; verbalize Math Drills 1-5 aloud; process full opening remarks across Sprint 1 Profitability cases.</div>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Deliverables Required</div>
+                    <div class="plan-subsection-content">Draft exactly 4 finalized behavioral stories formatted to pass McKinsey PEI structural review constraints.</div>
+                </div>
+            </div>
+
+            <div class="week-card">
+                <div class="week-header">
+                    <h3 class="week-title">Week 2: Growth strategy, Commercialization, and Chart Metrics</h3>
+                    <span class="week-milestone">Milestone: Analytical Fluency</span>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Focus Target Areas</div>
+                    <div class="plan-subsection-content">Evaluating market entry parameters, value-based pricing strategies, and analyzing complex chart axis exhibits under time limits.</div>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Daily Practice Activities</div>
+                    <div class="plan-subsection-content">Execute Math Drills 6-10 daily; drill down into GTM frameworks; perform full spoken answers across all Sprint 2 and Sprint 5 files.</div>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Deliverables Required</div>
+                    <div class="plan-subsection-content">Complete 10 interactive data-exhibit interpret runs, securing 'Interview-Ready' marks on your AI feedback loops.</div>
+                </div>
+            </div>
+
+            <div class="week-card">
+                <div class="week-header">
+                    <h3 class="week-title">Week 3: M&A, Advanced Operations, and Structural Cost Bridges</h3>
+                    <span class="week-milestone">Milestone: Operational Mastery</span>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Focus Target Areas</div>
+                    <div class="plan-subsection-content">Commercial due diligence pipelines, hard synergy validation steps, manufacturing plant bottleneck logic, and corporate shared services consolidation.</div>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Daily Practice Activities</div>
+                    <div class="plan-subsection-content">Run Math Drills 11-15; map full industrial value chain workflows; complete extensive verbalization runs across Sprint 2 and Sprint 3 modules.</div>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Deliverables Required</div>
+                    <div class="plan-subsection-content">Log 15 automated audio transcripts, proving complete elimination of baseline filler-word patterns.</div>
+                </div>
+            </div>
+
+            <div class="week-card">
+                <div class="week-header">
+                    <h3 class="week-title">Week 4: Mock Sprints, Partner Pushback, and Dashboard Finalization</h3>
+                    <span class="week-milestone">Milestone: MBB-Caliber Performance</span>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Focus Target Areas</div>
+                    <div class="plan-subsection-content">Managing high ambiguity case openings, defending recommendations against partner pushback, and maintaining polished executive presence.</div>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Daily Practice Activities</div>
+                    <div class="plan-subsection-content">Execute random sprint selections across the entire ecosystem; record full candidate-led summaries; drill down into the 10 Partner-round questions.</div>
+                </div>
+                <div class="plan-subsection">
+                    <div class="plan-subsection-title">Deliverables Required</div>
+                    <div class="plan-subsection-content">Achieve stable 'MBB-Caliber' ratings across all 8 tracking channels on your local dashboard.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTAL SECTION: PARTNER ROUND -->
+        <section id="partner-round" class="section-container">
+            <div class="hero">
+                <span class="track-pill">Executive Level Deep-Dive</span>
+                <h2>Partner Round Preparation Playbook Strategy</h2>
+                <p class="description">Final-round interviews with Senior Partners differ fundamentally from first-round screens. Partners skip generic templates to test your business judgment, emotional poise, and communication authenticity.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                <div style="background-color: var(--bg-card); padding: 25px; border-radius: 8px; border: 1px solid var(--border-color);">
+                    <h3 style="color: var(--accent-gold); margin-top:0; font-size: 1.2rem;">How Final Rounds Differ</h3>
+                    <p style="font-size:0.95rem; line-height:1.6; color: var(--text-muted); margin:0;">
+                        First-round interviews evaluate whether you can accurately execute business frameworks and calculate numbers. Partner rounds evaluate whether they can trust you to advise their top Fortune 100 clients. Cases are highly conversational and highly ambiguous. Partners will purposefully interrupt your math or challenge your framework parameters to see if you get defensive or maintain executive poise under intense professional pressure.
+                    </p>
+                </div>
+                <div style="background-color: var(--bg-card); padding: 25px; border-radius: 8px; border: 1px solid var(--border-color);">
+                    <h3 style="color: var(--accent-gold); margin-top:0; font-size: 1.2rem;">The Defense Architecture</h3>
+                    <p style="font-size:0.95rem; line-height:1.6; color: var(--text-muted); margin:0;">
+                        When a partner challenges your strategy, never say 'The framework said so.' Acknowledge their real-world experience immediately. Use data to bridge your models with their insights. Always lead with your definitive answer first, support it with quantified business metrics, address operational risks, and state clear immediate execution next steps to prove you think like an advisor, not an MBA student.
+                    </p>
+                </div>
+            </div>
+
+            <h3 style="color: white; font-size: 1.3rem; margin-bottom: 15px;">10 Must-Master Partner Round Strategic Prompts:</h3>
+            <div id="partner-questions-anchor"></div>
+        </section>
+    </main>
+
+    <script>
+        // Competency List
+        const PORTAL_METRICS = [
+            "Case Structuring", "Business Judgment", "Math Accuracy", "Synthesis", 
+            "Fit / PEI Storytelling", "Executive Presence", "Communication Clarity", "Recommendation Strength"
+        ];
+
+        // 10 Mandatory Partner Round Questions
+        const PARTNER_QUESTIONS = [
+            "Why consulting now, and why our specific firm practice footprint over industry corporate tracks?",
+            "Why do you want to join our firm specifically, and how do you map your long-term career goals?",
+            "Tell me about a time you managed an intense interpersonal conflict and successfully changed someone's mind using data.",
+            "Tell me about a high-stakes professional failure, and what it taught you about your individual leadership boundaries.",
+            "What would your past professional colleagues say is the hardest part about working with you under tight deadlines?",
+            "What specific macro business problem or industry vertical trend are you most passionate about solving post-MBA?",
+            "If you were sitting down advising the CEO on day one, what high-impact operational lever would you evaluate first?",
+            "What operational risks or downside scenarios would you worry about most regarding this capital investment move?",
+            "How would you align competing executive stakeholders if our data insights clash with their historic corporate traditions?",
+            "What would you do if our client team fundamentally disagreed with our final synergy modeling projections?"
+        ];
+
+        // Navigation Management Engine
+        function showPortalSection(sectionId) {
+            document.querySelectorAll('.section-container').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('#portal-nav button').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            const titleMap = {
+                'hub-directory': 'Ecosystem Navigation Hub',
+                'readiness-dashboard': 'MBB Readiness Dashboard',
+                'how-to-use': 'How to Use This Playbook',
+                'prep-plan': 'MBB 4-Week Preparation Roadmap',
+                'partner-round': 'Partner Round Preparation Playbook Strategy'
+            };
+            document.getElementById('header-view-title').innerText = titleMap[sectionId];
+        }
+
+        // Dashboard LocalStorage Sync Engine
+        function buildDashboardEngine() {
+            const grid = document.getElementById('readiness-anchor-grid');
+            grid.innerHTML = '';
+
+            PORTAL_METRICS.forEach(m => {
+                let currentScore = localStorage.getItem(`portal_score_${m}`) || "1. Emerging";
+                let blockClass = currentScore.includes('4') ? 'metric-card mbb-caliber' : 'metric-card';
+
+                grid.innerHTML += `
+                    <div class="${blockClass}" id="box_${m.replace(/\s+/g, '')}">
+                        <h4 class="metric-title">${m}</h4>
+                        <select onchange="updatePortalMetric('${m}', this.value)">
+                            <option value="1. Emerging" ${currentScore.includes('1') ? 'selected' : ''}>1. Emerging</option>
+                            <option value="2. Developing" ${currentScore.includes('2') ? 'selected' : ''}>2. Developing</option>
+                            <option value="3. Interview-Ready" ${currentScore.includes('3') ? 'selected' : ''}>3. Interview-Ready</option>
+                            <option value="4. MBB-Caliber" ${currentScore.includes('4') ? 'selected' : ''}>4. MBB-Caliber</option>
+                        </select>
+                    </div>
+                `;
+            });
+        }
+
+        function updatePortalMetric(metric, value) {
+            localStorage.setItem(`portal_score_${metric}`, value);
+            
+            // Recalculate component card visual boundaries
+            const cardBox = document.getElementById(`box_${metric.replace(/\s+/g, '')}`);
+            if (value.includes('4')) {
+                cardBox.classList.add('mbb-caliber');
+            } else {
+                cardBox.classList.remove('mbb-caliber');
+            }
+        }
+
+        function renderPartnerRoundQuestions() {
+            const anchor = document.getElementById('partner-questions-anchor');
+            anchor.innerHTML = '';
+            PARTNER_QUESTIONS.forEach((q, idx) => {
+                anchor.innerHTML += `
+                    <div class="partner-question-card">
+                        <p class="partner-question-text">Prompt ${idx + 1}: ${q}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // Bootstrap portal operations
+        window.onload = () => {
+            buildDashboardEngine();
+            renderPartnerRoundQuestions();
+        };
+    </script>
+</body>
+</html>
