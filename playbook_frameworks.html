@@ -553,13 +553,50 @@
             document.getElementById('filler-words').innerText = `Filler Words Detected: ${count}`;
         }
 
-        function generateFrameworkCoachingPrompt() {
-            const fw = CONSULTING_FRAMEWORKS.find(f => f.id === activeFrameworkId), userSpeech = document.getElementById('transcription-box').value;
-            if (!fw) return;
-            const structuredPayload = `[CONSULTING / MBB INTERVIEW COACHING — ECCLES MBA MODULE]\nCORE FRAMEWORK APPLIED: ${fw.frameworkName}\nTARGET INDUSTRIAL USE CASE: "${fw.consultingUseCase}"\nEXPECTED ELITE CUSTOMIZATION: "${fw.customizationStrategy}"\nCANDIDATE RESPONSE:\n"${userSpeech || "[Evaluate data models]"}"\nProvide partner-level insights using exactly this output layout:\n\n**What Worked**\n[1-2 strengths]\n\n**Top 2 Areas for Improvement**\n1. [Critical gap]\n2. [Logical issue]\n\n**Advanced Consulting Power Move**\n[Expert metric move]\n\n**MBB Readiness Evaluation**\n[Emerging | Developing | Interview-Ready | MBB-Caliber]`;
-            document.getElementById('ai-copy-text').innerText = structuredPayload.trim();
-            document.getElementById('ai-prompt-output').style.display = 'block';
-        }
+function generateFrameworkCoachingPrompt() {
+    const fw = CONSULTING_FRAMEWORKS.find(f => f.id === activeFrameworkId);
+    const userSpeech = document.getElementById('transcription-box').value;
+    
+    if (!fw) return;
+
+    const structuredPayload = `
+[CONSULTING / MBB INTERVIEW COACHING — ECCLES MBA MODULE]
+Evaluate the candidate's operational framework customization overview against the specific scenario context using partner-level standards.
+
+CORE FRAMEWORK APPLIED: ${fw.frameworkName}
+TARGET INDUSTRIAL USE CASE: "${fw.consultingUseCase}"
+EXPECTED ELITE CUSTOMIZATION: "${fw.customizationStrategy}"
+
+CANDIDATE TRANSCRIBED RESPONSE STATEMENT:
+"${userSpeech || "[Candidate provided no spoken transcript. Evaluate the framework context and generate a model response mapping directly into this architecture.]"}"
+
+Provide deep, objective structural metrics utilizing exactly this markdown output schema:
+
+**What Worked**
+[Detail 1-2 key structural elements.]
+
+**Top 2 Areas for Improvement**
+1. [Identify primary gap vs elite MBB delivery]
+2. [Identify secondary logical gap]
+
+**Advanced Consulting Power Move**
+[Provide one expert-level industry variable or insight tailored to this case]
+
+**Dashboard Scorecard Matrix**
+Assign exactly one rubric score (1. Emerging | 2. Developing | 3. Interview-Ready | 4. MBB-Caliber) for each applicable competency based on this specific performance:
+* Case Structuring: [Score]
+* Business Judgment: [Score]
+* Math Accuracy: [Score (N/A if not tested)]
+* Synthesis: [Score]
+* Fit / PEI Storytelling: [Score (N/A if not tested)]
+* Executive Presence: [Score]
+* Communication Clarity: [Score]
+* Recommendation Strength: [Score]
+    `;
+
+    document.getElementById('ai-copy-text').innerText = structuredPayload.trim();
+    document.getElementById('ai-prompt-output').style.display = 'block';
+}
 
         function copyToClipboard() { navigator.clipboard.writeText(document.getElementById('ai-copy-text').innerText); alert("Payload copied!"); }
         window.onload = () => { calculateNavigationBadges(); renderFrameworks(CONSULTING_FRAMEWORKS); };
