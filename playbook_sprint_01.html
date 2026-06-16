@@ -27,6 +27,7 @@
             overflow: hidden;
         }
 
+        /* PERMANENT GLOBAL SIDEBAR */
         aside {
             width: 320px;
             background-color: var(--bg-sidebar);
@@ -35,12 +36,13 @@
             flex-direction: column;
             padding: 20px 0;
             overflow-y: auto;
+            flex-shrink: 0;
         }
 
         .brand {
             padding: 0 24px 20px;
             border-bottom: 1px solid var(--border-color);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .brand h2 {
@@ -56,11 +58,10 @@
             margin: 0;
             font-size: 0.9rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
         .nav-label {
-            padding: 10px 24px;
+            padding: 10px 24px 5px;
             font-size: 0.75rem;
             text-transform: uppercase;
             color: var(--text-muted);
@@ -68,12 +69,9 @@
             font-weight: 700;
         }
 
-        nav button {
-            background: none;
-            border: none;
+        aside a {
+            text-decoration: none;
             color: var(--text-muted);
-            width: 100%;
-            text-align: left;
             padding: 12px 24px;
             font-size: 0.95rem;
             cursor: pointer;
@@ -81,13 +79,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            border-left: 4px solid transparent;
         }
 
-        nav button:hover, nav button.active {
+        aside a:hover, aside a.active {
             background-color: rgba(204, 0, 0, 0.1);
             color: var(--primary-red);
-            border-left: 4px solid var(--primary-red);
-            padding-left: 20px;
+            border-left-color: var(--primary-red);
         }
 
         .count-badge {
@@ -132,6 +130,35 @@
             color: var(--accent-gold);
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        /* HORIZONTAL LOCAL TOOLBAR VIEW TOGGLE */
+        .local-toolbar {
+            background-color: #161616;
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 40px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .toolbar-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toolbar-btn:hover, .toolbar-btn.active {
+            background-color: rgba(204, 0, 0, 0.1);
+            color: white;
         }
 
         .section-container {
@@ -249,16 +276,9 @@
             white-space: pre-line;
         }
 
-        .tabs-container {
-            margin-top: 20px;
-        }
-
-        .tab-headers {
-            display: flex;
-            border-bottom: 1px solid var(--border-color);
-            gap: 10px;
-        }
-
+        .tabs-container { margin-top: 20px; }
+        .tab-headers { display: flex; border-bottom: 1px solid var(--border-color); gap: 10px; }
+        
         .tab-btn {
             background: none;
             border: none;
@@ -271,21 +291,9 @@
             border-bottom: 2px solid transparent;
         }
 
-        .tab-btn.active {
-            color: var(--primary-red);
-            border-bottom-color: var(--primary-red);
-        }
-
-        .tab-content {
-            display: none;
-            padding: 15px 5px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
+        .tab-btn.active { color: var(--primary-red); border-bottom-color: var(--primary-red); }
+        .tab-content { display: none; padding: 15px 5px; font-size: 0.95rem; line-height: 1.5; }
+        .tab-content.active { display: block; }
 
         .btn-action {
             background-color: var(--primary-red);
@@ -303,11 +311,8 @@
             margin-top: 15px;
         }
 
-        .btn-action:hover {
-            background-color: #a00000;
-        }
+        .btn-action:hover { background-color: #a00000; }
 
-        /* Modal Architecture */
         .modal {
             display: none;
             position: fixed;
@@ -333,83 +338,49 @@
             position: relative;
         }
 
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 2rem;
-            cursor: pointer;
-        }
-
-        textarea {
-            width: 100%;
-            box-sizing: border-box;
-            height: 160px;
-            background-color: #121212;
-            color: white;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 15px;
-            margin-top: 15px;
-            font-family: var(--font-family);
-            font-size: 1rem;
-            line-height: 1.5;
-            resize: vertical;
-        }
-
-        .copy-box {
-            background-color: #121212;
-            padding: 20px;
-            border-left: 4px solid var(--accent-gold);
-            font-family: monospace;
-            margin-top: 15px;
-            white-space: pre-wrap;
-            font-size: 0.9rem;
-            color: #dcdcdc;
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        .recording-indicator {
-            display: none;
-            color: var(--primary-red);
-            font-weight: 700;
-            animation: pulse 1.5s infinite;
-        }
-
+        .close-modal { position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer; }
+        textarea { width: 100%; box-sizing: border-box; height: 160px; background-color: #121212; color: white; border: 1px solid var(--border-color); border-radius: 4px; padding: 15px; margin-top: 15px; font-family: var(--font-family); font-size: 1rem; line-height: 1.5; resize: vertical; }
+        .copy-box { background-color: #121212; padding: 20px; border-left: 4px solid var(--accent-gold); font-family: monospace; margin-top: 15px; white-space: pre-wrap; font-size: 0.9rem; color: #dcdcdc; max-height: 250px; overflow-y: auto; }
+        .recording-indicator { display: none; color: var(--primary-red); font-weight: 700; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
+    <!-- PERMANENT GLOBAL SIDEBAR -->
     <aside>
         <div class="brand">
             <h2>Eccles MBA</h2>
-            <p>Practice Sprint 1</p>
+            <p>Consulting Command Center</p>
         </div>
-        <div class="nav-label">Navigation Engine</div>
-        <nav>
-            <button class="active" onclick="switchView('cases-view')">
-                <span>MBB Case Prompts</span>
-                <span class="count-badge">5</span>
-            </button>
-            <button onclick="switchView('questions-view')">
-                <span>Paired Question Bank</span>
-                <span class="count-badge">20</span>
-            </button>
-        </nav>
+        <div class="nav-label">Core Directory</div>
+        <a href="./index.html">Ecosystem Dashboard</a>
+        <a href="./playbook_frameworks.html">20 Case Frameworks</a>
+        <a href="./playbook_math.html">15 Analytics Math Drills</a>
+        <a href="./playbook_battlecard.html">MBB Battlecard Vault</a>
+        
+        <div class="nav-label">Practice Sprints</div>
+        <a href="./playbook_sprint_01.html" class="active">Sprint 1: Profitability</a>
+        <a href="./playbook_sprint_02.html">Sprint 2: M&A Strategy</a>
+        <a href="./playbook_sprint_03.html">Sprint 3: Operations</a>
+        <a href="./playbook_sprint_04.html">Sprint 4: Tech & SaaS</a>
+        <a href="./playbook_sprint_05.html">Sprint 5: GTM & Pricing</a>
+        <a href="./playbook_sprint_06.html">Sprint 6: Capstones</a>
     </aside>
 
     <main>
         <header>
             <div class="header-title-area">
-                <h1 id="header-display-title">Sprint 1: Cases</h1>
+                <h1 id="header-display-title">Sprint 1: Case Prompts</h1>
                 <div class="header-subtitle">Profitability Decline & Market Entry Essentials</div>
             </div>
         </header>
+
+        <!-- REGIONAL HORIZONTAL VIEW TOOLBAR TOOLBAR -->
+        <div class="local-toolbar">
+            <button class="toolbar-btn active" id="btn-cases" onclick="switchView('cases-view', this)">MBB Case Prompts <span class="count-badge">5</span></button>
+            <button class="toolbar-btn" id="btn-questions" onclick="switchView('questions-view', this)">Paired Question Bank <span class="count-badge">20</span></button>
+        </div>
 
         <!-- VIEW: CASES -->
         <section id="cases-view" class="section-container active">
@@ -445,15 +416,12 @@
                 
                 <div style="margin-top: 15px; display: flex; gap: 15px; align-items: center;">
                     <button class="btn-action" onclick="toggleRecordingEngine()" id="btn-record">🎙️ Start Spoken Answer</button>
-                    <span class="recording-indicator" id="recording-status">🔴 Audio Pipeline Live... Recording</span>
+                    <span class="recording-indicator" id="recording-status">🔴 Audio Pipeline Live...</span>
                     <div id="filler-words" style="font-size: 0.9rem; font-weight:600; color:var(--accent-gold);">Filler Words: 0</div>
                 </div>
                 
                 <textarea id="transcription-box" placeholder="Your live recording speech transcript will populate here..."></textarea>
-                
-                <button class="btn-action" style="background-color: var(--accent-gold); color: black; width: 100%; justify-content: center;" onclick="triggerAIFeedbackPayload()">
-                    Generate Rigorous AI Coaching Prompt
-                </button>
+                <button class="btn-action" style="background-color: var(--accent-gold); color: black; width: 100%; justify-content: center;" onclick="triggerAIFeedbackPayload()">Generate Rigorous AI Coaching Prompt</button>
                 
                 <div id="ai-prompt-output" style="display: none;">
                     <p style="margin-top: 20px; font-weight: 700; font-size: 0.95rem;">Copy this payload directly into your AI assistant for partner-grade processing:</p>
@@ -465,7 +433,6 @@
     </main>
 
     <script>
-        // High-Fidelity Data Repositories
         const SPRINT_CASES = [
             {
                 id: "s1_case_01",
@@ -482,7 +449,7 @@
                 sampleDataOrExhibit: "Exhibit 1: Base Cost Architecture breakdown:\n- Raw Ingredients: 40%\n- Logistics/Fleet Labor: 35%\n- Facility Overhead: 15%\n- Corporate SG&A: 10%\n*Note: Raw material commodity indexes scaled up 1.5% consistently month-over-month for 12 consecutive months.*",
                 strongAnswerPath: "The candidate notes that because revenues scaled up, the issue is entirely on the cost side outstripping volume adjustments. They immediately look at raw food inputs and logistics labor, discover that fixed pricing contracts block immediate cost pass-through, and target upcoming contract renewals for adjustments.",
                 finalRecommendation: "Introduce mandatory dynamic inflation indexing escalators into all upcoming carrier contracts, optimize supply lanes via unified central procurement, and automate repetitive kitchen plating workflows to lower labor costs.",
-                coachingNotes: "Make sure students do not wait for data. A strong candidate builds a clear hypothesis early: 'Given the macro landscape, I hypothesize that structural input asset inflation is outpacing static B2B contract pricing systems.'",
+                coachingNotes: "Make sure students do not wait for data. A strong candidate builds a clear hypothesis early: 'Given the macro landscape, I hypothesize that input asset inflation is outpacing static B2B contract pricing systems.'",
                 redFlags: "Suggesting retail branding or consumer marketing strategies for a business-to-business infrastructure contract crisis."
             },
             {
@@ -545,7 +512,7 @@
                 difficulty: "Expert",
                 title: "E-Commerce Fulfillment Center Bottleneck Optimization",
                 clientContext: "A major logistics provider operating a 500,000 square foot e-commerce fulfillment engine failed to hit its 2-day delivery SLAs during peak holiday demand rushes, triggering costly shipping chargebacks.",
-                interviewerPrompt: "The Chief Operating Officer needs to isolate the processing constraint holding back throughput and wants a facility redesign plan before the next volume surge. How would you trace and eliminate this operational bottleneck?",
+                interviewerPrompt: "The Chief Operating Officer needs to isolate the processing constraint holding back throughput and wants a facility redesign plan before the next volume surge. How do you trace and eliminate this operational bottleneck?",
                 candidateObjectives: "1. Map step-by-step processing capacities across the facility workflow.\n2. Isolate the single gating step limiting overall throughput (Theory of Constraints).\n3. Design a low-cost operational fix to maximize daily shipping metrics.",
                 clarifyingQuestions: "What is the exact physical layout of the processing sequence, and what are the hourly design capacities for the picking, packing, sorting, and loading zones?",
                 suggestedStructure: "Throughput Optimization System:\n- Process Audit Mapping: Volume capacity per hour at each workstation block.\n- Variable Inefficiencies: Staffing misalignments, mechanical downtime, or software routing delays.\n- Physical Layout Logistics: Travel times between storage bays and packing zones.\n- Financial Implications: Savings from fewer chargebacks versus the capital cost of automation tools.",
@@ -688,7 +655,7 @@
                 conversational: "I bring a data-driven operational background from my engineering career, combined with advanced corporate finance training from my Eccles MBA. This allows me to jump into client teams and translate complex operational problems into clear financial impacts. On day one, I can build robust valuation models while ensuring the operational assumptions behind them match floor realities.",
                 deepdive: "Your value proposition should be memorable, authentic, and directly applicable to the fast-paced world of cross-functional client engagements.",
                 coaching: "Avoid generic skills like 'hard-working' or 'personable'. Focus on your unique intersection of skills and explain exactly how it helps a project team under tight deadlines.",
-                redFlag: "Delivering an overly humble or generic response that fails to articulate your individual strengths and value.",
+                redFlag: "Delivering an overly humble or generic response that fails to articulate your individual strengths and value."
             },
             {
                 id: "s1_q_14",
@@ -698,7 +665,7 @@
                 conversational: "Midway through a system migration, our vendor unexpectedly went bankrupt, making our initial software platform unusable. The team was frustrated and ready to pause the project. I called an immediate reset meeting, broke down our remaining options, and realigned workloads to focus on an alternative open-source engine. By keeping communication clear and breaking down the pivot into manageable steps, we delivered the migration on schedule.",
                 deepdive: "Change management prompts evaluate your emotional resilience, structured communication, and ability to keep a team focused during unexpected project disruptions.",
                 coaching: "Focus on the interpersonal side of leadership: how you handled team frustration, communicated the new direction, and kept performance high through a chaotic period.",
-                redFlag: "Complaining about the unexpected change or focusing entirely on technical fixes without detailing how you managed the team through the transition."
+                redFlag: "Complaining about the unexpected change or focusing entirely on technical patches without detailing how you managed the team through the transition."
             },
             {
                 id: "s1_q_15",
@@ -734,7 +701,7 @@
                 id: "s1_q_18",
                 category: "McKinsey PEI / Behavioral Interview",
                 difficulty: "Advanced",
-                question: "Tell me about a time you mentored a underperforming colleague and successfully elevated their professional performance trajectory.",
+                question: "Tell me about a time you mentored an underperforming colleague and successfully elevated their professional performance trajectory.",
                 conversational: "A junior analyst on my project team was consistently missing data deadlines, which was slowing down our client deliverables. Instead of scaling back their responsibilities, I sat down with them to find the roadblock. I discovered they were stuck on complex financial modeling structures but were hesitant to ask for help. I ran daily 30-minute training sessions for two weeks and paired them with a senior analyst. They built their confidence and delivered their next three sprint tasks ahead of schedule.",
                 deepdive: "Consulting relies heavily on team development. Leaders must show empathy, clear performance coaching, and a commitment to growing junior talent.",
                 coaching: "Clearly explain how you diagnosed the performance root cause, developed a structured improvement plan, and measured the positive outcome.",
@@ -762,50 +729,27 @@
             }
         ];
 
-        // Application Navigation & Rendering Core
-        let activeView = 'cases-view';
-
-        function switchView(viewId) {
-            activeView = viewId;
+        function switchView(viewId, activeBtn) {
             document.querySelectorAll('.section-container').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-            
+            document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
-            event.currentTarget.classList.add('active');
-
-            const titleMap = {
-                'cases-view': 'Sprint 1: Case Prompts',
-                'questions-view': 'Sprint 1: Paired Question Bank'
-            };
-            document.getElementById('header-display-title').innerText = titleMap[viewId];
+            activeBtn.classList.add('active');
+            document.getElementById('header-display-title').innerText = viewId === 'cases-view' ? 'Sprint 1: Case Prompts' : 'Sprint 1: Paired Question Bank';
         }
 
         function populateSprintArchitecture() {
-            const casesAnchor = document.getElementById('cases-anchor');
-            casesAnchor.innerHTML = '';
-            
+            const casesAnchor = document.getElementById('cases-anchor'); casesAnchor.innerHTML = '';
             SPRINT_CASES.forEach(c => {
                 casesAnchor.innerHTML += `
                     <div class="card">
                         <div class="card-header-row">
                             <div>
                                 <h3 class="card-title">${c.title}</h3>
-                                <div class="tag-row">
-                                    <span class="badge badge-category">${c.caseType}</span>
-                                    <span class="badge badge-difficulty">${c.difficulty}</span>
-                                </div>
+                                <div class="tag-row"><span class="badge badge-category">${c.caseType}</span><span class="badge badge-difficulty">${c.difficulty}</span></div>
                             </div>
                         </div>
-                        
-                        <div class="content-block">
-                            <div class="content-block-title">Client Situation & Strategic Context</div>
-                            <div class="content-block-text">${c.clientContext}</div>
-                        </div>
-                        <div class="content-block">
-                            <div class="content-block-title">Interviewer Prompt Payload</div>
-                            <div class="content-block-text" style="color: #fff; font-weight: 600; font-style: italic;">"${c.interviewerPrompt}"</div>
-                        </div>
-
+                        <div class="content-block"><div class="content-block-title">Client Situation & Strategic Context</div><div class="content-block-text">${c.clientContext}</div></div>
+                        <div class="content-block"><div class="content-block-title">Interviewer Prompt Payload</div><div class="content-block-text" style="color:#fff; font-weight:600; font-style:italic;">"${c.interviewerPrompt}"</div></div>
                         <div class="tabs-container">
                             <div class="tab-headers">
                                 <button class="tab-btn active" onclick="toggleCardTab(event, 'objectives')">Objectives</button>
@@ -816,71 +760,39 @@
                             </div>
                             <div class="tab-content active" data-tab="objectives">
                                 <strong>Candidate Milestones:</strong><br>${c.candidateObjectives}<br><br>
-                                <strong>Clarifying Entry Questions:</strong><br><span style="font-style: italic; color: var(--accent-gold);">"${c.clarifyingQuestions}"</span>
+                                <strong>Clarifying Entry Questions:</strong><br><span style="font-style:italic; color:var(--accent-gold);">"${c.clarifyingQuestions}"</span>
                             </div>
-                            <div class="tab-content" data-tab="structure">
-                                <strong>Tailored MECE Issue Framework:</strong><br>${c.suggestedStructure}<br><br>
-                                <strong>Key Business Parameters:</strong><br>${c.keyBusinessIssues}
-                            </div>
-                            <div class="tab-content" data-tab="data">
-                                <strong>Quantitative Requirements:</strong><br>${c.mathRequired}<br><br>
-                                <strong>Data Field / Exhibit Reference:</strong><br>
-                                <pre style="background:#111; padding:10px; border-radius:4px; color:#fff; font-family:sans-serif; white-space:pre-wrap; margin:5px 0;">${c.sampleDataOrExhibit}</pre>
-                            </div>
-                            <div class="tab-content" data-tab="path">
-                                <strong>Elite Execution Path:</strong><br>${c.strongAnswerPath}<br><br>
-                                <strong>Executive Recommendation Blueprint:</strong><br><span style="color:var(--accent-gold); font-style:italic;">"${c.finalRecommendation}"</span>
-                            </div>
-                            <div class="tab-content" data-tab="coaching">
-                                <span style="color: #4ecdc4;"><strong>Senior Coaching Note:</strong></span><br>${c.coachingNotes}<br><br>
-                                <span style="color: #ff6b6b;"><strong>Fatal Red Flags:</strong></span><br>${c.redFlags}
-                            </div>
+                            <div class="tab-content" data-tab="structure"><strong>Tailored MECE Framework:</strong><br>${c.suggestedStructure}<br><br><strong>Key Business Parameters:</strong><br>${c.keyBusinessIssues}</div>
+                            <div class="tab-content" data-tab="data"><strong>Quantitative Requirements:</strong><br>${c.mathRequired}<br><br><strong>Exhibit Reference:</strong><br><pre style="background:#111; padding:10px; border-radius:4px; color:#fff; font-family:sans-serif; white-space:pre-wrap;">${c.sampleDataOrExhibit}</pre></div>
+                            <div class="tab-content" data-tab="path"><strong>Elite Execution Path:</strong><br>${c.strongAnswerPath}<br><br><strong>Recommendation Blueprint:</strong><br><span style="color:var(--accent-gold); font-style:italic;">"${c.finalRecommendation}"</span></div>
+                            <div class="tab-content" data-tab="coaching"><span style="color:#4ecdc4;"><strong>Senior Coaching Note:</strong></span><br>${c.coachingNotes}<br><br><span style="color:#ff6b6b;"><strong>Fatal Red Flags:</strong></span><br>${c.redFlags}</div>
                         </div>
-
                         <button class="btn-action" onclick="openPracticeModal('${c.id}', 'case')">Practice Case Opening Remarks →</button>
-                    </div>
-                `;
+                    </div>`;
             });
 
-            const questionsAnchor = document.getElementById('questions-anchor');
-            questionsAnchor.innerHTML = '';
-
+            const questionsAnchor = document.getElementById('questions-anchor'); questionsAnchor.innerHTML = '';
             SPRINT_QUESTIONS.forEach(q => {
                 questionsAnchor.innerHTML += `
                     <div class="card">
                         <div class="card-header-row">
                             <div>
                                 <h3 class="card-title">${q.question}</h3>
-                                <div class="tag-row">
-                                    <span class="badge badge-category">${q.category}</span>
-                                    <span class="badge badge-difficulty">${q.difficulty}</span>
-                                </div>
+                                <div class="tag-row"><span class="badge badge-category">${q.category}</span><span class="badge badge-difficulty">${q.difficulty}</span></div>
                             </div>
                         </div>
-
                         <div class="tabs-container">
                             <div class="tab-headers">
                                 <button class="tab-btn active" onclick="toggleCardTab(event, 'conversational')">Conversational Answer</button>
                                 <button class="tab-btn" onclick="toggleCardTab(event, 'deepdive')">Strategic Deep-Dive</button>
                                 <button class="tab-btn" onclick="toggleCardTab(event, 'notes')">Coaching & Red Flags</button>
                             </div>
-                            <div class="tab-content active" data-tab="conversational">
-                                <div style="font-style: italic; color: #e5c158; background: #1a1a1a; padding:15px; border-radius:4px; border-left:3px solid var(--accent-gold);">
-                                    "${q.conversational}"
-                                </div>
-                            </div>
-                            <div class="tab-content" data-tab="deepdive">
-                                ${q.deepdive}
-                            </div>
-                            <div class="tab-content" data-tab="notes">
-                                <span style="color: #4ecdc4;"><strong>Delivery Coaching Note:</strong></span><br>${q.coaching}<br><br>
-                                <span style="color: #ff6b6b;"><strong>Fatal Red Flag Boundary:</strong></span><br>${q.redFlag}
-                            </div>
+                            <div class="tab-content active" data-tab="conversational"><div style="font-style:italic; color:#e5c158; background:#1a1a1a; padding:15px; border-radius:4px; border-left:3px solid var(--accent-gold);">"${q.conversational}"</div></div>
+                            <div class="tab-content" data-tab="deepdive">${q.deepdive}</div>
+                            <div class="tab-content" data-tab="notes"><span style="color:#4ecdc4;"><strong>Delivery Coaching Note:</strong></span><br>${q.coaching}<br><br><span style="color:#ff6b6b;"><strong>Fatal Red Flag Boundary:</strong></span><br>${q.redFlag}</div>
                         </div>
-
                         <button class="btn-action" onclick="openPracticeModal('${q.id}', 'question')">Practice Live Verbalization →</button>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
@@ -888,87 +800,48 @@
             const container = event.target.closest('.tabs-container');
             container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             container.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
             event.target.classList.add('active');
             container.querySelector(`.tab-content[data-tab="${tabName}"]`).classList.add('active');
         }
 
-        // Speech Engine & Modal Functionality
-        let recognition;
-        let isRecording = false;
-        let activeItemId = null;
-        let activeItemType = null;
+        let recognition, isRecording = false, activeItemId = null, activeItemType = null;
 
         function openPracticeModal(id, type) {
-            activeItemId = id;
-            activeItemType = type;
-            
+            activeItemId = id; activeItemType = type;
             let sourceItem = type === 'case' ? SPRINT_CASES.find(c => c.id === id) : SPRINT_QUESTIONS.find(q => q.id === id);
             if (!sourceItem) return;
-
             document.getElementById('practice-modal').classList.add('active');
             document.getElementById('modal-title-header').innerText = type === 'case' ? 'Case Structuring Sprint' : 'Verbalization Sprint';
             document.getElementById('modal-item-title').innerText = type === 'case' ? sourceItem.title : sourceItem.category;
             document.getElementById('modal-context-label').innerText = type === 'case' ? 'Interviewer Case Prompt:' : 'Target Interview Question:';
             document.getElementById('modal-prompt-text').innerText = type === 'case' ? sourceItem.interviewerPrompt : sourceItem.question;
-            
             document.getElementById('transcription-box').value = '';
             document.getElementById('filler-words').innerText = 'Filler Words: 0';
             document.getElementById('ai-prompt-output').style.display = 'none';
         }
 
-        function closeModal() {
-            document.getElementById('practice-modal').classList.remove('active');
-            if (isRecording) stopRecordingEngine();
-        }
+        function closeModal() { document.getElementById('practice-modal').classList.remove('active'); if (isRecording) stopRecordingEngine(); }
 
         function toggleRecordingEngine() {
             if (!isRecording) {
-                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                    alert("Speech parsing is optimized for Chrome and Edge browsers. Please deploy on an engine with active speech synthesis APIs.");
-                    return;
-                }
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { alert("Requires Chrome/Edge browser speech engine."); return; }
                 const SpeechClass = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechClass();
-                recognition.continuous = true;
-                recognition.interimResults = true;
-                recognition.lang = 'en-US';
-
+                recognition = new SpeechClass(); recognition.continuous = true; recognition.interimResults = true; recognition.lang = 'en-US';
                 recognition.onresult = function(event) {
                     let finalSegment = '';
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        if (event.results[i].isFinal) finalSegment += event.results[i][0].transcript;
-                    }
-                    if (finalSegment) {
-                        const box = document.getElementById('transcription-box');
-                        box.value += finalSegment + ' ';
-                        countTrackedFillers(box.value);
-                    }
+                    for (let i = event.resultIndex; i < event.results.length; ++i) { if (event.results[i].isFinal) finalSegment += event.results[i][0].transcript; }
+                    if (finalSegment) { const box = document.getElementById('transcription-box'); box.value += finalSegment + ' '; countTrackedFillers(box.value); }
                 };
-
-                recognition.start();
-                document.getElementById('btn-record').innerText = "🛑 Stop Recording";
-                document.getElementById('recording-status').style.display = "inline-flex";
-                isRecording = true;
-            } else {
-                stopRecordingEngine();
-            }
+                recognition.start(); document.getElementById('btn-record').innerText = "🛑 Stop Recording"; document.getElementById('recording-status').style.display = "inline-flex"; isRecording = true;
+            } else { stopRecordingEngine(); }
         }
 
-        function stopRecordingEngine() {
-            if (recognition) recognition.stop();
-            document.getElementById('btn-record').innerText = "🎙️ Start Spoken Answer";
-            document.getElementById('recording-status').style.display = "none";
-            isRecording = false;
-        }
+        function stopRecordingEngine() { if (recognition) recognition.stop(); document.getElementById('btn-record').innerText = "🎙️ Start Spoken Answer"; document.getElementById('recording-status').style.display = "none"; isRecording = false; }
 
         function countTrackedFillers(text) {
             const targets = ['um', 'uh', 'like', 'you know', 'basically', 'actually', 'sort of'];
-            let score = 0;
-            const pieces = text.toLowerCase().split(/\s+/);
-            pieces.forEach(p => {
-                if (targets.includes(p.replace(/[^a-z]/g, ''))) score++;
-            });
+            let score = 0; const pieces = text.toLowerCase().split(/\s+/);
+            pieces.forEach(p => { if (targets.includes(p.replace(/[^a-z]/g, ''))) score++; });
             document.getElementById('filler-words').innerText = `Filler Words: ${score}`;
         }
 
@@ -976,44 +849,13 @@
             let item = activeItemType === 'case' ? SPRINT_CASES.find(c => c.id === activeItemId) : SPRINT_QUESTIONS.find(q => q.id === activeItemId);
             const userSpeech = document.getElementById('transcription-box').value;
             if (!item) return;
-
-            let payload = `
-[CONSULTING / MBB INTERVIEW COACHING — ECCLES MBA MODULE]
-Evaluate the candidate response to the following consulting tracking prompt using partner-level standards:
-
-${activeItemType === 'case' ? `CASE SCENARIO: ${item.title}\nPROMPT EXPECTATION: "${item.interviewerPrompt}"\nIDEAL FRAMEWORK PATH: "${item.suggestedStructure}"` : `INTERVIEW PROMPT: "${item.question}"\nEXPECTED MODEL DELIVERY: "${item.conversational}"`}
-
-CANDIDATE AUDIO TRANSCRIPT INPUT:
-"${userSpeech || "[No transcript provided. Evaluate the parameters and generate a baseline model answer matching this vertical context.]"}"
-
-Provide deep structured metrics using exactly this markdown output schema:
-
-**What Worked**
-[Detail 1-2 key operational strengths from what the candidate said, looking specifically at structure, customization, or business judgment context.]
-
-**Top 2 Areas for Improvement**
-1. [Identify the primary gap versus an elite MBB delivery and give specific replacement phrasing.]
-2. [Identify any logical gaps, memorized boilerplate phrases, or structural blind spots.]
-
-**Advanced Consulting Power Move**
-[Provide one custom, partner-level business insight or analytical variable tailored to this case context that would impress a senior interviewer.]
-
-**MBB Readiness Evaluation**
-[Assign an absolute performance tier: Emerging | Developing | Interview-Ready | MBB-Caliber. Give a clear justification based on delivery clarity and executive presence.]
-            `;
-
+            let payload = `[CONSULTING / MBB INTERVIEW COACHING — ECCLES MBA MODULE]\n${activeItemType === 'case' ? `CASE: ${item.title}\nPROMPT: "${item.interviewerPrompt}"` : `PROMPT: "${item.question}"`}\nCANDIDATE RESPONSE:\n"${userSpeech || "[No transcript]"}"\nProvide feedback using parameters: What Worked, Top 2 Areas, Advanced Consulting Move, and MBB Readiness rating.`;
             document.getElementById('ai-copy-text').innerText = payload.trim();
             document.getElementById('ai-prompt-output').style.display = 'block';
         }
 
-        function copyPayloadToClipboard() {
-            navigator.clipboard.writeText(document.getElementById('ai-copy-text').innerText);
-            alert("The full evaluation payload has been successfully packed into your system clipboard. Move to your AI model to generate feedback loop results.");
-        }
-
-        window.onload = () => {
-            populateSprintArchitecture();
-        };
+        function copyPayloadToClipboard() { navigator.clipboard.writeText(document.getElementById('ai-copy-text').innerText); alert("Payload packed to clipboard!"); }
+        window.onload = () => { populateSprintArchitecture(); };
     </script>
 </body>
 </html>
